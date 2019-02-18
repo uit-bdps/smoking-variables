@@ -1,5 +1,3 @@
-### Passive smoking status
-
 passiveSmokingStatus <- function (women) {
   # Creating a blank column for passive smoking status
   women$PassiveSmoking = NA
@@ -59,22 +57,6 @@ passiveSmokingStatus <- function (women) {
   women$PassiveSmoking[women$ClosestQuest == "x" & is.na(women$PassiveSmoking)
                             & women$ROKBARN ==1
                             &  women$ROKBOR ==1] <- "Not_PassiveSmoker"
-  
-  
-  addmargins(table(women$PassiveSmoking, exclude=NULL))
-  
-  Adult_passivesmoking <- filter(.data=women, women$PassiveSmoking == "Passive_adulthood")
-  
-  Childhood_passivesmoking <- filter(.data=women, women$PassiveSmoking == "Passive_childhood")
-  
-  Missing_passivesmoking <- filter(.data=women, is.na(PassiveSmoking))
-  # Remember to include some information about 18 missing smoking status in the report/article
-  
-  # Remember to include some information about 172 missing passive values in the report/article
-  addmargins(table(Missing_passivesmoking$ClosestQuest))
-  addmargins(table(Missing_passivesmoking$SERIENR))
-  
-  addmargins(table(women$SERIENR))
   
   return(women)
 }
