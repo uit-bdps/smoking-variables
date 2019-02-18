@@ -40,3 +40,6 @@ rsconnect/
 *.Rproj
 *.rxproj
 *.sln
+
+# RData-files
+data/
