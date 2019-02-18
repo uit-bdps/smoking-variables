@@ -1,5 +1,3 @@
-# Function for extracting year part of date given as an integer (from blood sample date)
-
 # Function for calculating age at blood sample
 calculateAgeAtBloodSample <- function (obs) {
   bloodSampleYear <- extractYearFromIntegerDate(convertStringToNumber(obs["BPROVEDATO"]))
