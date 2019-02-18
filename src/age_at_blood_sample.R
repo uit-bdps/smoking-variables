@@ -1,4 +1,4 @@
-# Function for extracting year part of date given as an integer (from Blood sample)
+# Function for extracting year part of date given as an integer (from blood sample date)
 
 # Function for calculating age at blood sample
 calculateAgeAtBloodSample <- function (obs) {
