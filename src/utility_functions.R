@@ -75,7 +75,7 @@ estimateStartAndStopAgeFromIntervals <- function (obs) {
         } 
       } else if (!is.na(estimatedStart)) {
         # The loop continues here, and the previous interval before new NA is estimated stop age.
-        estimatedStop <- 14.5 + (i - 10)  
+        estimatedEnd <- 14.5 + (i - 10)  
         
         # Jump out of loop, we have found the value for start and stop age
         break 
@@ -102,7 +102,7 @@ estimateStartAndStopAgeFromIntervals <- function (obs) {
         estimatedStart <- 12 + i
       } 
     } else if (!is.na(estimatedStart)) { 
-      estimatedStop <- 12 + (i - 5) # The loop continues here, and the previous interval before new NA is estimated Stop age 
+      estimatedEnd <- 12 + (i - 5) # The loop continues here, and the previous interval before new NA is estimated Stop age 
       break # Jump out of loop, we have found the value for start and stop age
     }
     
@@ -127,7 +127,7 @@ estimateStartAndStopAgeFromIntervals <- function (obs) {
       } 
     } else if (!is.na(estimatedStart)) { 
         # The loop continues here, and the previous interval before new NA is estimated stop age 
-        estimatedStop <- 14.5 + (i - 10) 
+        estimatedEnd <- 14.5 + (i - 10) 
         
         # Jump out of loop, we have found the value for start and stop age
         break
@@ -154,7 +154,7 @@ estimateStartAndStopAgeFromIntervals <- function (obs) {
       } 
     } else if (!is.na(estimatedStart)) {
       # The loop continues here, and the previous interval before new NA is estimated stop age
-      estimatedStop <- 14.5 + (i - 10) 
+      estimatedEnd <- 14.5 + (i - 10) 
       
       # Jump out of loop, we have found the value for start and stop age
       break

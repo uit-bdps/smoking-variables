@@ -66,8 +66,15 @@ test_that("Test calculateAverageOption(vector, names)", {
 
 # estimateStartAndStopAgeFromIntervals
 
-test_that("Test estimateStartAndStopAgeFromIntervals(vector)", {
-  
+test_that("Test estimateStartAndStopAgeFromIntervals(vector) for yROKANT1 to yROKANT6", {
+  vector <- c("y", NA, "1", "2", "3", NA, NA)
+  names(vector) <- c("ClosestQuest", sprintf("yROYKANT%d", seq(1:6)))
+
+  result <- estimateStartAndStopAgeFromIntervals(vector)
+
+
+  expect_equal(result[1], 24.5)
+  expect_equal(result[2], 44.5)
 })
 
 

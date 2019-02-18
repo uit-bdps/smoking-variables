@@ -1,7 +1,9 @@
 # Main script for smoking status calculations
 
 rm(list=ls())
-load("/project/data1/tice2/NikitaBaiju/Data/Controldataset_GEdata_Smokingvars_171018.RData")
+
+load("../data/Controldataset_GEdata_Smokingvars_171018.RData")
+# load("/project/data1/tice2/NikitaBaiju/Data/Controldataset_GEdata_Smokingvars_171018.RData")
 
 if (!require(dplyr)) {
   install.packages(dplyr)
