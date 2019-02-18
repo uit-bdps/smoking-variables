@@ -174,8 +174,8 @@ estimateStopAgeFromIntervals <- function (obs) {
   return(estimateStartAndStopAgeFromIntervals(obs)[2])
 }
 
-# Age at start. Calculates an average if several different answers have been given for one woman.
-# Returns the floor of number.
+# Age at start. Calculates an average if several different answers have been given
+# for one woman.
 startAge <- function (obs) {
   ageAtBloodSample <-  convertStringToNumber(obs["AgeAtBloodSample"])
   
@@ -209,7 +209,6 @@ startAge <- function (obs) {
 
 # Age at stop.  Calculates an average if several different answers have been given 
 # for one woman.
-# Returns the floor of number.
 stopAge <- function (obs) {
   ageAtBloodSample <-  convertStringToNumber(obs["AgeAtBloodSample"])
   
