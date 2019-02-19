@@ -25,7 +25,7 @@ extractYearFromIntegerDate <- function(intDate) {
   return(year)
 }
 
-# Find average of values given a vector of column names. Columns containing NA will be skipped.
+# Find average of values given a vector of column names. Columns containing NA or 0 will be skipped.
 # Note: 98 has a special meaning for smoking intensity options. Be aware that we are ignoring 
 # these values.
 calculateAverageOption <- function(obs, colNames) {
@@ -41,7 +41,7 @@ calculateAverageOption <- function(obs, colNames) {
     if (!is.na(option) & !is.null(option)) {
       option <- convertStringToNumber(option)
 
-      if (option != 98) {
+      if (option != 0 & option != 98) {
         divisor <- divisor + 1
         dividend <- dividend + option
       }
