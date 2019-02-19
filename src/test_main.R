@@ -6,5 +6,3 @@ if (!require(testthat)) {
 } 
 
 test_results <- test_dir("tests", reporter="summary")
-
-
