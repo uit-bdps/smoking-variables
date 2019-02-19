@@ -64,7 +64,7 @@ calculateOptionZ <- function (obs) {
   
   if (!is.na(optionZ)) {
     if (!is.na(optionY)) {
-      return((optionZ + optionY) / 2)
+      return((optionZ + (2 * optionY)) / 3) # Remember that Y also includes X
     } else {
       return(optionZ)
     }
