@@ -4,7 +4,7 @@
 # else return input as it is
 convertStringToNumber <- function(numberStr) {
   if (is.character(numberStr)) {
-    return(as.numeric(trim(numberStr)))
+    return(as.numeric(trimws(numberStr)))
   }
 
   return(numberStr)
@@ -93,7 +93,6 @@ estimateStartAndStopAgeFromIntervals <- function(obs) {
       return(res)
     }
   }
-
 
   # ROK1-ROK8
   res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("ROK%d", seq(1:8)), 12, 5)
