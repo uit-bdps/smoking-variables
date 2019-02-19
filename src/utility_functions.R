@@ -63,7 +63,7 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
   for (colName in colNames) {
     colValue <- convertStringToNumber(obs[colName])
 
-    if (!is.na(colValue)) {
+    if (!is.na(colValue) & colValue != 0) {
       if (is.na(estimatedStart)) {
         # First interval after NA is estimated Start age 
         # The average age start at "baseAge" and increase by "intervalWidth" for each interval
