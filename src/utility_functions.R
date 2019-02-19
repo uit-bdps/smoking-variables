@@ -65,15 +65,15 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
 
     if (!is.na(colValue) & colValue != 0) {
       if (is.na(estimatedStart)) {
-        # First interval after NA is estimated Start age 
+        # The first interval after NA or 0 is used to estimate start age. 
         # The average age start at "baseAge" and increase by "intervalWidth" for each interval
         estimatedStart <- baseAge + i
       }
     } else if (!is.na(estimatedStart)) {
-      # The loop continues here, and the previous interval before new NA is estimated stop age.
+      # The loop continues here, and the interval preceding the NA or 0-value is used to estimate stop age.
       estimatedEnd <- baseAge + (i - intervalWidth)
 
-      # Jump out of loop, we have found the value for start and stop age
+      # Break loop because we have found the value for start and stop age
       break
     }
 
