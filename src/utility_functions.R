@@ -101,8 +101,19 @@ estimateStartAndStopAgeFromIntervals <- function(obs) {
     return(res)
   }
 
-  # ROYKANT1019-ROYKANT55MM
-  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT1019", "ROYKANT2029", "ROYKANT3039", "ROYKANT4049", "ROYKANT50MM"), 14.5, 10)
+  # ROYKANT1014-ROYKANT55MM
+
+  # The two first intervals are 5 year intervals, the rest are 10 year intervals.
+  resYoung <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT1014", "ROYKANT1519"), 12, 5)
+  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT2029", "ROYKANT3039", "ROYKANT4049", "ROYKANT50MM"), 24.5, 10)
+
+  # If the person started smoking before the age of 20, use that value. Also, if the person quit before the age of 20, which is possible too.
+  if (!is.na(resYoung[1])) {
+    res[1] <- resYoung[1]
+    if (is.na(res[2]) & !is.na(resYoung[2])) {
+      res[2] <- resYoung[2]
+    }
+  }
 
   if (!is.na(res[1])) {
     return(res)
