@@ -51,16 +51,14 @@ calculateOptionY <- function (obs) {
 calculateOptionZ <- function (obs) {
   
   optionY <- calculateOptionY(obs) #includes option for both x and y
-  
-  last5years <- obs["ZROKSIST5"]
-  last8years <- obs["ZROKSIST8"]
   optionZ <- NA
-  
-  if (!is.na(last5years)) {
-    last5years <- convertStringToNumber(last5years)
+
+  last5years <- convertStringToNumber(obs["ZROKSIST5"])
+  last8years <- convertStringToNumber(obs["ZROKSIST8"])
+
+  if (!is.na(last5years) & (last5years != 0)) {
     optionZ <- last5years
-  } else if (!is.na(last8years)) {
-    last8years <- convertStringToNumber(last8years)
+  } else if (!is.na(last8years) & (last8years != 0)) {
     optionZ <- last8years
   }
   
