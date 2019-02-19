@@ -64,6 +64,16 @@ test_that("Test calculateAverageOption(vector, names)", {
   expect_equal(result, 2)
 })
 
+test_that("Test calculateAverageOption(vector, names)", {
+  vector <- c("0", "2", "3", "98", NA)
+  names(vector) <- c("a", "b", "c", "d", "e")
+
+  result <- calculateAverageOption(vector, names(vector))
+
+  expect_equal(result, 2.5)
+})
+
+
 # estimateStartAndStopAgeFromIntervals
 
 test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROK1 to ROK8", {
@@ -125,3 +135,26 @@ test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROKANT1 to ROKA
   expect_equal(result[1], 24.5)
   expect_equal(result[2], 44.5)
 })
+
+# Start Age
+
+test_that("Test startAge(vector) for ROKANT1 to ROKANT6 only", {
+  vector <- c("x", NA, "1", "2", "3", NA, NA)
+  names(vector) <- c("ClosestQuest", sprintf("ROYKANT%d", seq(1:6)))
+
+  result <- startAge(vector)
+
+  expect_equal(result, 24.5)
+})
+
+# Stop Age
+
+test_that("Test stopAge(vector) for ROKANT1 to ROKANT6 only", {
+  vector <- c("x", NA, "1", "2", "3", NA, NA)
+  names(vector) <- c("ClosestQuest", sprintf("ROYKANT%d", seq(1:6)))
+
+  result <- stopAge(vector)
+
+  expect_equal(result, 44.5)
+})
+
