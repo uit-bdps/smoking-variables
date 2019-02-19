@@ -4,7 +4,7 @@
 # else return input as it is
 convertStringToNumber <- function(numberStr) {
   if (is.character(numberStr)) {
-    return(as.numeric(trimws(numberStr)))
+    return(as.numeric(trim(numberStr)))
   }
 
   return(numberStr)
