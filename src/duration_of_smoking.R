@@ -17,13 +17,18 @@ smokingDurationFormer <- function (obs) {
   return(ageAtStop - ageAtStart)
 }
 
-calculateSmokingDuration <- function (obs) {
+calculateSmokingDuration <- function(obs) {
   smokingStatus <- obs["SmokingStatus"]
-  
-  if (is.na(smokingStatus)) return(NA)
-  else if (smokingStatus == "Current") return(smokingDurationCurrent(obs))
-  else if (smokingStatus == "Former") return(smokingDurationFormer(obs))
-  else return(NA)
+
+  if (is.na(smokingStatus)) {
+    return(NA)
+  } else if (smokingStatus == "Current") {
+    return(smokingDurationCurrent(obs))
+  } else if (smokingStatus == "Former") {
+    return(smokingDurationFormer(obs))
+  } else {
+    return(NA)
+  }
 }
 
 smokingDuration <- function (women) {

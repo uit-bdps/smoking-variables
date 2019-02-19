@@ -31,3 +31,4 @@ Qscontrols <- passiveSmokingStatus(Qscontrols)
 Qscontrols <- ageAtBloodSample(Qscontrols)
 Qscontrols <- smokingDuration(Qscontrols)
 Qscontrols <- timeSinceCessation(Qscontrols)
+
