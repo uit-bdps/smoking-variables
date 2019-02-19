@@ -23,8 +23,6 @@ calculateSmokingDuration <- function (obs) {
   if (is.na(smokingStatus)) return(NA)
   else if (smokingStatus == "Current") return(smokingDurationCurrent(obs))
   else if (smokingStatus == "Former") return(smokingDurationFormer(obs))
-  # Just to check if there are any mistakes in the "Never"-status
-  else if (smokingStatus == "Never") return(smokingDurationFormer(obs)) 
   else return(NA)
 }
 
