@@ -14,7 +14,7 @@ calculateTSC <- function (obs) {
   if (is.na(smokingStatus)) return(NA)
   else if (smokingStatus == "Former") return(calculateTimeSinceCessation(obs))
   
-  else return(NA)
+  else return(0)
 }
 
 timeSinceCessation <- function (women) {
