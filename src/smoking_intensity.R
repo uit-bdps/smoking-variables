@@ -74,30 +74,22 @@ calculateOptionZ <- function (obs) {
 }
 
 calculateIntensity <- function (obs) {
-  smokingStatus <- obs["SmokingStatus"]
-
-  if (is.na(smokingStatus)) {
-    return(NA)
-  } else if (smokingStatus == "Current" | smokingStatus == "Former") {
-    option <- NA
-
-    if (obs["ClosestQuest"] == "x") {
-      option <- calculateOptionX(obs)
-    } else if (obs["ClosestQuest"] == "y") {
-      option <- calculateOptionY(obs)
-    } else {
-      option <- calculateOptionZ(obs)
-    }
-
-    option <- trunc(option + 0.5) # Use trunc instead of round, because round rounds 0.5 to even.
-
-    return(optionToIntensityVector[option + 1])
+  option <- NA
+  
+  if (obs["ClosestQuest"] == "x") {
+    option <- calculateOptionX(obs)
+  } else if (obs["ClosestQuest"] == "y") {
+    option <- calculateOptionY(obs)
   } else {
-    return(0)
+    option <- calculateOptionZ(obs)
   }
+  
+  option <- trunc(option + 0.5) # Use trunc instead of round, because round rounds 0.5 to even.
+  
+  return(optionToIntensityVector[option + 1])
 }
 
-calculateOption1019 <- function (obs){
+calculateOption1019 <- function (obs) {
   colNames <- c("ROYKANT1014", "ROYKANT1519")
   option <- calculateAverageOption(obs, colNames)
   
@@ -105,6 +97,21 @@ calculateOption1019 <- function (obs){
     return(option)
   
   return(NA)
+}
+
+zeroIntensityForNeverSmokers <- function (woman) {
+  smokingStatus <- woman["SmokingStatus"]
+
+  if (!is.na(smokingStatus) & smokingStatus == "Never") {
+    return(0)
+  } else {
+    return(woman["Intensity"])
+  }
+}
+
+setNeverSmokerIntensitiesToZero <- function (women) {
+  women$Intensity <- apply(women, 1, zeroIntensityForNeverSmokers)
+  return(women)
 }
 
 smokingIntensity <- function (women) {
