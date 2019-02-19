@@ -27,7 +27,7 @@ calculateSmokingDuration <- function(obs) {
   } else if (smokingStatus == "Former") {
     return(smokingDurationFormer(obs))
   } else {
-    return(NA)
+    return(0)
   }
 }
 

@@ -11,10 +11,13 @@ calculateTimeSinceCessation <- function (obs) {
 calculateTSC <- function (obs) {
   smokingStatus <- obs["SmokingStatus"]
   
-  if (is.na(smokingStatus)) return(NA)
-  else if (smokingStatus == "Former") return(calculateTimeSinceCessation(obs))
-  
-  else return(0)
+  if (is.na(smokingStatus)) {
+    return(NA)
+  } else if (smokingStatus == "Former") {
+    return(calculateTimeSinceCessation(obs))
+  } else {
+    return(0)
+  }
 }
 
 timeSinceCessation <- function (women) {

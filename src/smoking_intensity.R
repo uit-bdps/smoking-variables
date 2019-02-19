@@ -74,19 +74,27 @@ calculateOptionZ <- function (obs) {
 }
 
 calculateIntensity <- function (obs) {
-  option <- NA
-  
-  if (obs["ClosestQuest"] == "x") {
-    option <- calculateOptionX(obs)
-  } else if (obs["ClosestQuest"] == "y") {
-    option <- calculateOptionY(obs)
+  smokingStatus <- obs["SmokingStatus"]
+
+  if (is.na(smokingStatus)) {
+    return(NA)
+  } else if (smokingStatus == "Current" | smokingStatus == "Former") {
+    option <- NA
+
+    if (obs["ClosestQuest"] == "x") {
+      option <- calculateOptionX(obs)
+    } else if (obs["ClosestQuest"] == "y") {
+      option <- calculateOptionY(obs)
+    } else {
+      option <- calculateOptionZ(obs)
+    }
+
+    option <- trunc(option + 0.5) # Use trunc instead of round, because round rounds 0.5 to even.
+
+    return(optionToIntensityVector[option + 1])
   } else {
-    option <- calculateOptionZ(obs)
+    return(0)
   }
-  
-  option <- trunc(option + 0.5) # Use trunc instead of round, because round rounds 0.5 to even.
-  
-  return(optionToIntensityVector[option + 1])
 }
 
 calculateOption1019 <- function (obs){
