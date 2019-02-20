@@ -1,7 +1,6 @@
 # Time since cessation (TSC) (only needed for former smokers)
 
 reestimateStopAge <- function(ageAtStop, ageAtBloodSample) {
-  bloodAgeFloor <- (trunc(ageAtBloodSample / 10) * 10)
   stopAgeFloor <- (trunc(ageAtStop / 10) * 10)
 
   ageAtStop <- stopAgeFloor + ((ageAtBloodSample - stopAgeFloor) / 2)
