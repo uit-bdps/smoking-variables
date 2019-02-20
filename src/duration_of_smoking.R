@@ -14,6 +14,11 @@ smokingDurationFormer <- function (obs) {
   ageAtStart <- startAge(obs)
   ageAtStop <- stopAge(obs)
 
+  if (!is.na(ageAtStop) && !is.na(ageAtStart) && ageAtStop <= ageAtStart) {
+    # There are inconsistencies in the data for this woman, and in this case the duration cannot be estimated.
+    return(NA)
+  }
+
   return(ageAtStop - ageAtStart)
 }
 

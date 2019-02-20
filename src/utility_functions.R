@@ -71,7 +71,11 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
       }
     } else if (!is.na(estimatedStart)) {
       # The loop continues here, and the interval preceding the NA or 0-value is used to estimate stop age.
-      estimatedEnd <- baseAge + (i - intervalWidth)
+
+      # The reason for dividing intervalWidth by two is to get the upper bound of the age interval. 
+      # This will make the average duration for an interval equal to the interval length divided by two, 
+      # which is obtained by subtracting startAge from endAge.
+      estimatedEnd <- baseAge + (i - (intervalWidth / 2.0))
 
       # Break loop because we have found the value for start and stop age
       break
@@ -83,11 +87,21 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
   return(c(estimatedStart, estimatedEnd))
 }
 
-# Estimate start age from intervals
+# Estimate start age from intervals.
+# The average start age is calculated as the start of the interval + (the length of the inteval divided by two)
+# This means that the start age will be 15 for the interval 10-19, not 14.5. The reason can be seen when looking at interval lengths.
+# Because there are 5 one-year intervals on each side of 15. The interval for 19 years has to go up to 20.
+#
+# [-1-|-2-|-3-|-4-|-5-|-6-|-7-|-8-|-9-| 10>   Number of years
+# 10  11  12  13  14  15  16  17  18  19  20  Age in years
+#
+# The stop age will be the upper bound of the interval. E.g. 20 for age interval 10-19. 
+# This is to make the caluculations for duration correct.
+#
 estimateStartAndStopAgeFromIntervals <- function(obs) {
   if (obs["ClosestQuest"] != "x") {
     # yROYKANT1-yROYKANT6
-    res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("yROYKANT%d", seq(1:6)), 14.5, 10)
+    res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("yROYKANT%d", seq(1:6)), 15, 10)
 
     if (!is.na(res[1]) & !is.na(res[2])) {
       return(res)
@@ -95,7 +109,7 @@ estimateStartAndStopAgeFromIntervals <- function(obs) {
   }
 
   # ROK1-ROK8
-  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("ROK%d", seq(1:8)), 12, 5)
+  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("ROK%d", seq(1:8)), 12.5, 5)
 
   if (!is.na(res[1])) {
     return(res)
@@ -104,8 +118,8 @@ estimateStartAndStopAgeFromIntervals <- function(obs) {
   # ROYKANT1014-ROYKANT55MM
 
   # The two first intervals are 5 year intervals, the rest are 10 year intervals.
-  resYoung <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT1014", "ROYKANT1519"), 12, 5)
-  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT2029", "ROYKANT3039", "ROYKANT4049", "ROYKANT50MM"), 24.5, 10)
+  resYoung <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT1014", "ROYKANT1519"), 12.5, 5)
+  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, c("ROYKANT2029", "ROYKANT3039", "ROYKANT4049", "ROYKANT50MM"), 25, 10)
 
   # If the person started smoking before the age of 20, use that value. Also, if the person quit before the age of 20, which is possible too.
   if (!is.na(resYoung[1])) {
@@ -120,7 +134,7 @@ estimateStartAndStopAgeFromIntervals <- function(obs) {
   }
 
   # ROYKANT1-ROYKANT6
-  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("ROYKANT%d", seq(1:6)), 14.5, 10)
+  res <- estimateStartAndStopAgeFromSpecifiedIntervals(obs, sprintf("ROYKANT%d", seq(1:6)), 15, 10)
 
   return(res)
 }
@@ -133,10 +147,9 @@ estimateStopAgeFromIntervals <- function(obs) {
   return(estimateStartAndStopAgeFromIntervals(obs)[2])
 }
 
-# Age at start. Calculates an average if several different answers have been given
-# for one woman.
+# Age at start
+# Calculates an average if several different answers have been given for one woman.
 startAge <- function(obs) {
-
   if (obs["ClosestQuest"] == "z")
     colNames <- c("SIGALDER", "YSIGALDER", "YSIGALDERB", "ZSIGALDER")
   else if (obs["ClosestQuest"] == "y")
@@ -167,8 +180,9 @@ startAge <- function(obs) {
   return(ageAtStart)
 }
 
-# Age at stop.  Calculates an average if several different answers have been given 
-# for one woman.
+# Age at stop  
+# Calculates an average if several different answers have been given for one woman. 
+# Note that the stop age actually means "stopped before the age of" to make duration calculations correct.
 stopAge <- function(obs) {
 
   if (obs["ClosestQuest"] == "z")
@@ -178,7 +192,7 @@ stopAge <- function(obs) {
   else
     colNames <- character()
 
-  ageAtStop <- calculateAverageOption(obs, colNames)
+  ageAtStop <- calculateAverageOption(obs, colNames) # Note that this functions ignores variables with the value NA, 0, or 98
 
   # Even if the closest questionnaire is x or y, we sometimes have a stop age in z.
   # If we are missing the value for x or y, we can use "ZROYKSTOP" or "ZRALDSLUTT" if available.
@@ -196,8 +210,14 @@ stopAge <- function(obs) {
   }
 
   # If it is still not available (NA), inspect the smoking intervals/timeline
-  if (is.na(ageAtStop))
+  if (is.na(ageAtStop)) {
     ageAtStop <- estimateStopAgeFromIntervals(obs)
+  } else {
+    # Have to add one to get the "quit before age". 
+    # E.g. if a woman started at the age of 22 and quit some times at the same age, we don't want 22 - 22 = 0
+    # The function that calculates from intervals already has this built in.
+    ageAtStop <- ageAtStop + 1
+  }
 
   return(ageAtStop)
 }
