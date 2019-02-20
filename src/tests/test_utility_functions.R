@@ -82,8 +82,8 @@ test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROK1 to ROK8", 
 
   result <- estimateStartAndStopAgeFromIntervals(vector)
 
-  expect_equal(result[1], 22)
-  expect_equal(result[2], 32)
+  expect_equal(result[1], 22.5)
+  expect_equal(result[2], 35)
 })
 
 test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROYKANT1014 to ROYKANT50MM", {
@@ -92,8 +92,8 @@ test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROYKANT1014 to 
 
   result <- estimateStartAndStopAgeFromIntervals(vector)
 
-  expect_equal(result[1], 17)
-  expect_equal(result[2], 44.5)
+  expect_equal(result[1], 17.5)
+  expect_equal(result[2], 50)
 })
 
 test_that("Test estimateStartAndStopAgeFromIntervals(vector) for NA-only ROYKANT1014 to ROYKANT50MM", {
@@ -122,8 +122,8 @@ test_that("Test estimateStartAndStopAgeFromIntervals(vector) for yROKANT1 to yRO
 
   result <- estimateStartAndStopAgeFromIntervals(vector)
 
-  expect_equal(result[1], 24.5)
-  expect_equal(result[2], 44.5)
+  expect_equal(result[1], 25)
+  expect_equal(result[2], 50)
 })
 
 test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROKANT1 to ROKANT6", {
@@ -132,8 +132,8 @@ test_that("Test estimateStartAndStopAgeFromIntervals(vector) for ROKANT1 to ROKA
 
   result <- estimateStartAndStopAgeFromIntervals(vector)
 
-  expect_equal(result[1], 24.5)
-  expect_equal(result[2], 44.5)
+  expect_equal(result[1], 25)
+  expect_equal(result[2], 50)
 })
 
 # Start Age
@@ -144,7 +144,7 @@ test_that("Test startAge(vector) for ROKANT1 to ROKANT6 only", {
 
   result <- startAge(vector)
 
-  expect_equal(result, 24.5)
+  expect_equal(result, 25)
 })
 
 # Stop Age
@@ -155,6 +155,6 @@ test_that("Test stopAge(vector) for ROKANT1 to ROKANT6 only", {
 
   result <- stopAge(vector)
 
-  expect_equal(result, 44.5)
+  expect_equal(result, 50)
 })
 
