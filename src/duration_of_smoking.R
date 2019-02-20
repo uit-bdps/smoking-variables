@@ -1,4 +1,4 @@
-# Duration of smoking (only for current and former Smokers)
+# Duration of smoking (only for current and former smokers)
 
 # Duration of smoking for current smokers
 smokingDurationCurrent <- function (obs) {
