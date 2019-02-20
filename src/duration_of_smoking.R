@@ -12,14 +12,21 @@ smokingDurationCurrent <- function (obs) {
 # Duration of smoking for formers smokers
 smokingDurationFormer <- function (obs) {
   ageAtStart <- startAge(obs)
-  ageAtStop <- stopAge(obs)
+  ageAtBloodSample <- convertStringToNumber(obs["AgeAtBloodSample"])
+  tsc <- convertStringToNumber(obs["TSC"])
 
-  if (!is.na(ageAtStop) && !is.na(ageAtStart) && ageAtStop <= ageAtStart) {
-    # There are inconsistencies in the data for this woman, and in this case the duration cannot be estimated.
+  if (is.na(ageAtBloodSample) || is.na(ageAtStart) || is.na(tsc)) {
+    # Missing values prevent duration from being estimated
     return(NA)
   }
 
-  return(ageAtStop - ageAtStart)
+  duration <- ageAtBloodSample - tsc - ageAtStart
+
+  if (duration > 0) {
+    return(duration)
+  } else {
+    return(NA)
+  }
 }
 
 calculateSmokingDuration <- function(obs) {

@@ -74,8 +74,8 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
 
       # The reason for dividing intervalWidth by two is to get the upper bound of the age interval. 
       # This will make the average duration for an interval equal to the interval length divided by two, 
-      # which is obtained by subtracting startAge from endAge.
-      estimatedEnd <- baseAge + (i - (intervalWidth / 2.0))
+      # which is obtained by subtracting startAge from endAge. Minus one is there to get e.g. 19 for interval 10-19 instead of 20.
+      estimatedEnd <- baseAge + (i - (intervalWidth / 2.0) - 1)
 
       # Break loop because we have found the value for start and stop age
       break
@@ -94,9 +94,6 @@ estimateStartAndStopAgeFromSpecifiedIntervals <- function(obs, colNames, baseAge
 #
 # [-1-|-2-|-3-|-4-|-5-|-6-|-7-|-8-|-9-| 10>   Number of years
 # 10  11  12  13  14  15  16  17  18  19  20  Age in years
-#
-# The stop age will be the upper bound of the interval. E.g. 20 for age interval 10-19. 
-# This is to make the caluculations for duration correct.
 #
 estimateStartAndStopAgeFromIntervals <- function(obs) {
   if (obs["ClosestQuest"] != "x") {
@@ -182,7 +179,6 @@ startAge <- function(obs) {
 
 # Age at stop  
 # Calculates an average if several different answers have been given for one woman. 
-# Note that the stop age actually means "stopped before the age of" to make duration calculations correct.
 stopAge <- function(obs) {
 
   if (obs["ClosestQuest"] == "z")
@@ -212,12 +208,7 @@ stopAge <- function(obs) {
   # If it is still not available (NA), inspect the smoking intervals/timeline
   if (is.na(ageAtStop)) {
     ageAtStop <- estimateStopAgeFromIntervals(obs)
-  } else {
-    # Have to add one to get the "quit before age". 
-    # E.g. if a woman started at the age of 22 and quit some times at the same age, we don't want 22 - 22 = 0
-    # The function that calculates from intervals already has this built in.
-    ageAtStop <- ageAtStop + 1
-  }
+  } 
 
   return(ageAtStop)
 }
