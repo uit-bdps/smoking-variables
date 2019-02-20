@@ -23,9 +23,9 @@ calculateTimeSinceCessation <- function (obs) {
 
   if (is.na(ageAtStop)) {
     # If the woman quit smoking at the last interval then there sometimes is no ageAtStop
-    # Create an estimate within the last ten interval, using ageAtBloodSample - 1 as
-    # first parameter, to make sure that it works also for ages at exacly start of interval.
-    # In that case, the selected quit interval will be the one before the ageAtBloodSample
+    # Create an estimate within the last ten year interval, using ageAtBloodSample - 1 as
+    # first parameter to make sure that it works also for ages at exacly the start of interval.
+    # In that case, the selected quit interval will be the one before the ageAtBloodSample.
 
     # But if the start age is missing, then the intervals have not been used.
     if (!is.na(startAge(obs))) {
