@@ -83,6 +83,11 @@ smokingStatusNfc <- function(women) {
   women$SmokingStatus[women$ClosestQuest == "x" & is.na(women$SmokingStatus)
                            & (women$EVERROK == 0 | women$ROYKNAA == 0 | women$ROYKNAAB == 0 | women$SIGROYK == 0)] <- "Former"
 
+  # Women who still have no smoking status but have intensities are former smokers
+  women$SmokingStatus[is.na(women$SmokingStatus) & women$Intensity > 0] <- "Former"
+
+  # Women who still have no smoking status but have answered that they have never smoked
+  women$SmokingStatus[is.na(women$SmokingStatus) & (women$EVERROK == 1 | women$yEVERROK == 1)] <- "Never"
 
   return(women)
 }
