@@ -33,7 +33,15 @@ Qscontrols <- ageAtBloodSample(Qscontrols)
 Qscontrols <- timeSinceCessation(Qscontrols)
 Qscontrols <- smokingDuration(Qscontrols)
 
-table(Qscontrols$SmokingStatus, exclude = NULL)
+#table(Qscontrols$SmokingStatus, exclude = NULL)
+
+#currentSmokers <- x <- filter(Qscontrols, SmokingStatus == "Current")
+#hist(currentSmokers$SmokingDuration)
+
+#hist(currentSmokers$AgeAtBloodSample)
+
+#formerSmokers <- x <- filter(Qscontrols, SmokingStatus == "Former")
+#hist(formerSmokers$SmokingDuration)
 
 # These should all return 0 rows
 #filter(Qscontrols, SmokingStatus == "Current" & TSC == 0) %>% do(data.frame(nrow = nrow(.)))
