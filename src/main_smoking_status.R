@@ -33,3 +33,5 @@ Qscontrols <- ageAtBloodSample(Qscontrols)
 Qscontrols <- timeSinceCessation(Qscontrols)
 Qscontrols <- smokingDuration(Qscontrols)
 
+table(Qscontrols$SmokingStatus, exclude = NULL)
+
