@@ -35,4 +35,13 @@ Qscontrols <- smokingDuration(Qscontrols)
 
 table(Qscontrols$SmokingStatus, exclude = NULL)
 
-
+# These should all return 0 rows
+#filter(Qscontrols, SmokingStatus == "Current" & TSC == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Never" & TSC != 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Never" & SmokingDuration != 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Never" & Intensity == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Current" & Intensity == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Current" & SmokingDuration == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Former" & SmokingDuration == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Former" & Intensity == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Former" & TSC == 0) %>% do(data.frame(nrow = nrow(.)))
