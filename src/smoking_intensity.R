@@ -1,70 +1,80 @@
-# Intensity (average no. of cigarettes smoked per day)
+# Intensity (average number of cigarettes smoked per day)
 
 optionToIntensityVector <- c(0, 2.5, 7, 12, 17, 22, 27)
 
 # Option for X
-calculateOptionX <- function (obs) {
+calculateOptionX <- function(obs) {
   colNames <- sprintf("ROK%d", seq(1:8))
-  option <- calculateAverageOption(obs, colNames)
-  
-  if (!is.na(option)) {
-    return(option)
+  result <- calculateAverageOption(obs, colNames)
+
+  if (!is.na(result[1])) {
+    return(result)
   }
   
   colNames <- c("ROYKANT1019", "ROYKANT2029", "ROYKANT3039", "ROYKANT4049", "ROYKANT50MM")
-  option <- calculateAverageOption(obs, colNames)
+  result <- calculateAverageOption(obs, colNames)
   
-  if (!is.na(option)) {
-    return(option)
+  if (!is.na(result[1])) {
+    return(result)
   } 
   
   colNames <- c("ROYKANT1", "ROYKANT2", "ROYKANT3", "ROYKANT4", "ROYKANT5", "ROYKANT6")
-  option <- calculateAverageOption(obs, colNames)
+  result <- calculateAverageOption(obs, colNames)
   
-  if (!is.na(option)) {
-    return(option)
-  } 
-  
-  return(NA)  
+  return(result)
 }
 
 # Option for Y
 calculateOptionY <- function (obs) {
-  
-  optionX <- calculateOptionX(obs)
+  resultX <- calculateOptionX(obs)
+  optionX <- resultX[1]
+  weightX <- resultX[2]
   
   colNames <- c("yROYKANT1", "yROYKANT2", "yROYKANT3", "yROYKANT4", "yROYKANT5", "yROYKANT6")
-  optionY <- calculateAverageOption(obs, colNames)
-  
+  resultY <- calculateAverageOption(obs, colNames)
+  optionY <- resultY[1]
+  weightY <- resultY[2]
+
   if (!is.na(optionY)) {
     if (!is.na(optionX)) {
-      return((optionX + optionY) / 2)
+      avgWeighted <- ((optionX * weightX) + (optionY * weightY)) / (weightX + weightY)
+
+      # This is so calculation for z-option will know number of 10 year intervals that was used (average). X and Y intervals should be almost overlapping, thus the add and divide by two.
+      avgWeightForNextStep <- (weightX + weightY) / 2 
+
+      return(c(avgWeighted, avgWeightForNextStep))
     } else {
-      return(optionY)
+      return(resultY)
     }
   } 
   
-  return(optionX)
+  return(resultX)
 }
 
 # Option for Z
 calculateOptionZ <- function (obs) {
-  
-  optionY <- calculateOptionY(obs) #includes option for both x and y
+  resultY <- calculateOptionY(obs)
+  optionY <- resultY[1]
+  weightY <- resultY[2]
+
   optionZ <- NA
+  weightZ <- NA
 
   last5years <- convertStringToNumber(obs["ZROKSIST5"])
   last8years <- convertStringToNumber(obs["ZROKSIST8"])
 
   if (!is.na(last5years) & (last5years != 0)) {
     optionZ <- last5years
+    weightZ <- 5 / 10 # Divide by ten because the weight from Y is 1 per 10 year interval
   } else if (!is.na(last8years) & (last8years != 0)) {
     optionZ <- last8years
+    weightZ <- 8 / 10 
   }
   
   if (!is.na(optionZ)) {
     if (!is.na(optionY)) {
-      return((optionZ + (2 * optionY)) / 3) # Remember that Y also includes X
+      avgIntensity <- ((optionY * weightY) + (optionZ * weightZ)) / (weightY + weightZ)
+      return(avgIntensity) 
     } else {
       return(optionZ)
     }
@@ -77,11 +87,11 @@ calculateIntensity <- function (obs) {
   option <- NA
   
   if (obs["ClosestQuest"] == "x") {
-    option <- calculateOptionX(obs)
+    option <- calculateOptionX(obs)[1] # calculateOptionX returns a vector with avg. option and a weight
   } else if (obs["ClosestQuest"] == "y") {
-    option <- calculateOptionY(obs)
+    option <- calculateOptionY(obs)[1] # calculateOptionY returns a vector with avg. option and a weight
   } else {
-    option <- calculateOptionZ(obs)
+    option <- calculateOptionZ(obs) # calculateOptionZ returns a single value
   }
   
   option <- trunc(option + 0.5) # Use trunc instead of round, because round rounds 0.5 to even.
@@ -91,7 +101,7 @@ calculateIntensity <- function (obs) {
 
 calculateOption1019 <- function (obs) {
   colNames <- c("ROYKANT1014", "ROYKANT1519")
-  option <- calculateAverageOption(obs, colNames)
+  option <- calculateAverageOption(obs, colNames)[1]
   
   if (!is.na(option))
     return(option)

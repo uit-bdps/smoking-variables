@@ -28,6 +28,7 @@ extractYearFromIntegerDate <- function(intDate) {
 # Find average of values given a vector of column names. Columns containing NA or 0 will be skipped.
 # Note: 98 has a special meaning for smoking intensity options. Be aware that we are ignoring 
 # these values.
+# Returns a vector with the average in index 1 and divisor in index 2
 calculateAverageOption <- function(obs, colNames) {
   if (length(colNames) < 1)
     return(NA)
@@ -49,9 +50,9 @@ calculateAverageOption <- function(obs, colNames) {
   }
 
   if (divisor != 0) {
-    return(dividend / divisor)
+    return(c(dividend / divisor, divisor))
   } else {
-    return(NA)
+    return(c(NA, NA))
   }
 }
 
@@ -154,7 +155,7 @@ startAge <- function(obs) {
   else
     colNames <- c("SIGALDER")
 
-  ageAtStart <- calculateAverageOption(obs, colNames)
+  ageAtStart <- calculateAverageOption(obs, colNames)[1]
 
   # Even if the closest questionnaire is x or y, we sometimes have a start age in z.
   # If we are missing the value for x or y, we can use ZSIGALDER if available.
@@ -188,14 +189,14 @@ stopAge <- function(obs) {
   else
     colNames <- character()
 
-  ageAtStop <- calculateAverageOption(obs, colNames) # Note that this functions ignores variables with the value NA, 0, or 98
+  ageAtStop <- calculateAverageOption(obs, colNames)[1] # Note that this functions ignores variables with the value NA, 0, or 98
 
   # Even if the closest questionnaire is x or y, we sometimes have a stop age in z.
   # If we are missing the value for x or y, we can use "ZROYKSTOP" or "ZRALDSLUTT" if available.
   # As long as the stop age is less than the blood sample date, or else it doesn't make sense.
 
   colNames <- c("ZROYKSTOP", "ZRALDSLUTT")
-  zAge <- calculateAverageOption(obs, colNames)
+  zAge <- calculateAverageOption(obs, colNames)[1]
 
   if (is.na(ageAtStop) & !is.na(zAge)) {
     zAge <- convertStringToNumber(zAge)

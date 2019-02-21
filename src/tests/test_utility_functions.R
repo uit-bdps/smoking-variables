@@ -59,7 +59,7 @@ test_that("Test calculateAverageOption(vector, names)", {
   vector <- c("1", "2", "3", "98", NA)
   names(vector) <- c("a", "b", "c", "d", "e")
   
-  result <- calculateAverageOption(vector, names(vector))
+  result <- calculateAverageOption(vector, names(vector))[1]
   
   expect_equal(result, 2)
 })
@@ -68,7 +68,7 @@ test_that("Test calculateAverageOption(vector, names)", {
   vector <- c("0", "2", "3", "98", NA)
   names(vector) <- c("a", "b", "c", "d", "e")
 
-  result <- calculateAverageOption(vector, names(vector))
+  result <- calculateAverageOption(vector, names(vector))[1]
 
   expect_equal(result, 2.5)
 })
