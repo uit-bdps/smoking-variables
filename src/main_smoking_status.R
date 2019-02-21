@@ -33,6 +33,10 @@ Qscontrols <- ageAtBloodSample(Qscontrols)
 Qscontrols <- timeSinceCessation(Qscontrols)
 Qscontrols <- smokingDuration(Qscontrols)
 
+
+
+# The following commented out lines can be used for checking the results in Qscontrols.
+
 #table(Qscontrols$SmokingStatus, exclude = NULL)
 
 #currentSmokers <- filter(Qscontrols, SmokingStatus == "Current")
@@ -47,7 +51,7 @@ Qscontrols <- smokingDuration(Qscontrols)
 #filter(Qscontrols, SmokingStatus == "Current" & TSC == 0) %>% do(data.frame(nrow = nrow(.)))
 #filter(Qscontrols, SmokingStatus == "Never" & TSC != 0) %>% do(data.frame(nrow = nrow(.)))
 #filter(Qscontrols, SmokingStatus == "Never" & SmokingDuration != 0) %>% do(data.frame(nrow = nrow(.)))
-#filter(Qscontrols, SmokingStatus == "Never" & Intensity == 0) %>% do(data.frame(nrow = nrow(.)))
+#filter(Qscontrols, SmokingStatus == "Never" & Intensity != 0) %>% do(data.frame(nrow = nrow(.)))
 #filter(Qscontrols, SmokingStatus == "Current" & Intensity == 0) %>% do(data.frame(nrow = nrow(.)))
 #filter(Qscontrols, SmokingStatus == "Current" & SmokingDuration == 0) %>% do(data.frame(nrow = nrow(.)))
 #filter(Qscontrols, SmokingStatus == "Former" & SmokingDuration == 0) %>% do(data.frame(nrow = nrow(.)))

@@ -115,7 +115,7 @@ zeroIntensityForNeverSmokers <- function (woman) {
   if (!is.na(smokingStatus) & smokingStatus == "Never") {
     return(0)
   } else {
-    return(woman["Intensity"])
+    return(convertStringToNumber(woman["Intensity"]))
   }
 }
 
