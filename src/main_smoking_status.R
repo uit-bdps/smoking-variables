@@ -35,12 +35,12 @@ Qscontrols <- smokingDuration(Qscontrols)
 
 #table(Qscontrols$SmokingStatus, exclude = NULL)
 
-#currentSmokers <- x <- filter(Qscontrols, SmokingStatus == "Current")
+#currentSmokers <- filter(Qscontrols, SmokingStatus == "Current")
 #hist(currentSmokers$SmokingDuration)
 
 #hist(currentSmokers$AgeAtBloodSample)
 
-#formerSmokers <- x <- filter(Qscontrols, SmokingStatus == "Former")
+#formerSmokers <- filter(Qscontrols, SmokingStatus == "Former")
 #hist(formerSmokers$SmokingDuration)
 
 # These should all return 0 rows
