@@ -35,3 +35,4 @@ Qscontrols <- smokingDuration(Qscontrols)
 
 table(Qscontrols$SmokingStatus, exclude = NULL)
 
+
