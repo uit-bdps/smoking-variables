@@ -1,4 +1,4 @@
-# Current smokers from the blood sample questionnaires
+# Estimation of never, former, and current smokers
 
 smokingStatusCurrent <- function(woman) {
   currentlySmoking <- FALSE
