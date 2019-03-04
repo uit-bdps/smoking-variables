@@ -16,7 +16,7 @@ extractYearFromIntegerDate <- function(intDate) {
   year <- intDate %% 100
 
   # NOWAC participants not born before 1943
-  if (year >= 43) {
+  if (!is.na(year) & year >= 43) {
     year <- year + 1900
   } else {
     year <- year + 2000
@@ -167,7 +167,7 @@ startAge <- function(obs) {
     zAge <- convertStringToNumber(zAge)
     ageAtBloodSample <- convertStringToNumber(obs["AgeAtBloodSample"])
 
-    if (zAge < ageAtBloodSample)
+    if (!is.na(ageAtBloodSample) & zAge < ageAtBloodSample)
       ageAtStart <- zAge
   }
 
@@ -202,7 +202,7 @@ stopAge <- function(obs) {
     zAge <- convertStringToNumber(zAge)
     ageAtBloodSample <- convertStringToNumber(obs["AgeAtBloodSample"])
 
-    if (zAge < ageAtBloodSample)
+    if (!is.na(ageAtBloodSample) & zAge < ageAtBloodSample)
       ageAtStop <- zAge
   }
 
